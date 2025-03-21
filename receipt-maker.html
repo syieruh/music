@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Services Receipt Maker - d1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: #3E001A;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 25px 20px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        main {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+            padding: 0 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .form-section {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .receipt-section {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        h1, h2 {
+            color: #ffffff;
+            font-weight: bold;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #a992e2;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        button {
+            background-color: #a992e2;
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #d4c4ff;
+            transform: translateY(-2px);
+        }
+        
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .item-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .remove-item {
+            background-color: rgba(255, 107, 107, 0.7);
+            color: white;
+            padding: 5px 10px;
+        }
+        
+        .add-item-btn {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        #receipt {
+            background-color: #3E001A;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            text-shadow: none;
+        }
+        
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 15px;
+        }
+        
+        .receipt-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #a992e2;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .receipt-info {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .receipt-items {
+            margin-bottom: 20px;
+        }
+        
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .receipt-total {
+            font-weight: bold;
+            text-align: right;
+            font-size: 18px;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 2px solid #a992e2;
+            color: #a992e2;
+        }
+        
+        .receipt-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .print-btn {
+            background-color: #4CAF50;
+        }
+        
+        .download-btn {
+            background-color: #2196F3;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #receipt, #receipt * {
+                visibility: visible;
+            }
+            #receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+            }
+            .action-buttons {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Music Services Receipt Maker</div>
+        </header>
+        
+        <main>
+            <section class="form-section">
+                <h1>Create Receipt</h1>
+                
+                <div class="form-group">
+                    <label for="customer-name">Customer Name</label>
+                    <input type="text" id="customer-name" placeholder="Enter customer name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customer-email">Customer Email</label>
+                    <input type="email" id="customer-email" placeholder="Enter customer email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="receipt-date">Date</label>
+                    <input type="date" id="receipt-date">
+                </div>
+                
+                <div class="form-group">
+                    <label for="receipt-number">Receipt Number</label>
+                    <input type="text" id="receipt-number" placeholder="Enter receipt number">
+                </div>
+                
+                <h2>Services</h2>
+                <div id="services-container">
+                    <!-- Service items will be added here -->
+                </div>
+                
+                <button class="add-item-btn" id="add-service">
+                    <i class="fas fa-plus"></i> Add Service
+                </button>
+                
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" rows="3" placeholder="Additional notes or terms"></textarea>
+                </div>
+                
+                <button id="generate-receipt">Generate Receipt</button>
+            </section>
+            
+            <section class="receipt-section">
+                <h1>Receipt Preview</h1>
+                
+                <div id="receipt">
+                    <div class="receipt-header">
+                        <div class="receipt-logo">d-1 records</div>
+                        <div>Music Production Services</div>
+                    </div>
+                    
+                    <div class="receipt-info">
+                        <div><strong>Receipt #:</strong> <span id="display-receipt-number">-</span></div>
+                        <div><strong>Date:</strong> <span id="display-date">-</span></div>
+                        <div><strong>Customer:</strong> <span id="display-customer">-</span></div>
+                        <div><strong>Email:</strong> <span id="display-email">-</span></div>
+                    </div>
+                    
+                    <div class="receipt-items">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid #a992e2;">
+                                    <th style="text-align: left; padding: 5px; color: #a992e2;">Service</th>
+                                    <th style="text-align: right; padding: 5px; color: #a992e2;">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receipt-items-table">
+                                <!-- Receipt items will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="receipt-total">
+                        Total: $<span id="display-total">0.00</span>
+                    </div>
+                    
+                    <div class="receipt-footer">
+                        <p id="display-notes"></p>
+                        <p>Thank you for your business!</p>
+                        <p>© 2025 d-1 records. All rights reserved.</p>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="print-btn" id="print-receipt">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button class="download-btn" id="download-receipt">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        // Initialize date field with current date
+        document.getElementById('receipt-date').valueAsDate = new Date();
+        
+        // Generate a random receipt number
+        document.getElementById('receipt-number').value = 'INV-' + Math.floor(Math.random() * 10000);
+        
+        // Service options
+        const serviceOptions = [
+            { name: "MP3 Lease (Tagged)", price: 60 },
+            { name: "MP3 Lease (Untagged)", price: 90 },
+            { name: "WAV Lease (Untagged)", price: 119.99 },
+            { name: "Stems (Audio)", price: 199.99 },
+            { name: "Stems (Midi+Audio)", price: 499.99 },
+            { name: "Lyrics - Up to 120 words", price: 598.80 },
+            { name: "Lyrics - Up to 270 words", price: 2157.30 },
+            { name: "Lyrics - 270+ words (Max 600)", price: 5994.00 },
+            { name: "Hook - Up to 4 bars", price: 699.99 },
+            { name: "Hook - Up to 8 bars", price: 1399.99 },
+            { name: "Hook - Up to 12 bars", price: 1999.99 },
+            { name: "Mixing - Max 10 Audio Buses", price: 299.00 },
+            { name: "Mixing - More than 10 Audio Buses", price: 499.00 },
+            { name: "Mastering - Max 10 Audio Buses", price: 299.00 },
+            { name: "Mastering - More than 10 Audio Buses", price: 499.00 },
+            { name: "Custom Service", price: 0 }
+        ];
+        
+        // Add service item
+        function addServiceItem() {
+            const container = document.getElementById('services-container');
+            const itemIndex = container.children.length;
+            
+            const serviceItem = document.createElement('div');
+            serviceItem.className = 'service-item';
+            serviceItem.innerHTML = `
+                <div style="flex: 1;">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <select class="service-select" data-index="${itemIndex}">
+                            <option value="">Select a service</option>
+                            ${serviceOptions.map(option => 
+                                `<option value="${option.name}" data-price="${option.price}">${option.name} - $${option.price.toFixed(2)}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <input type="number" class="service-price" placeholder="Price" value="0" min="0" step="0.01">
+                    </div>
+                </div>
+                <div class="item-controls">
+                    <button class="remove-item">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(serviceItem);
+            
+            // Add event listener to service select
+            const select = serviceItem.querySelector('.service-select');
+            select.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const price = selectedOption.getAttribute('data-price');
+                const priceInput = serviceItem.querySelector('.service-price');
+                
+                if (price) {
+                    priceInput.value = parseFloat(price).toFixed(2);
+                } else {
+                    priceInput.value = "0.00";
+                }
+            });
+            
+            // Add event listener to remove button
+            const removeButton = serviceItem.querySelector('.remove-item');
+            removeButton.addEventListener('click', function() {
+                serviceItem.remove();
+            });
+        }
+        
+        // Add first service item by default
+        addServiceItem();
+        
+        // Add event listener to add service button
+        document.getElementById('add-service').addEventListener('click', addServiceItem);
+        
+        // Generate receipt
+        document.getElementById('generate-receipt').addEventListener('click', function() {
+            // Get form values
+            const customerName = document.getElementById('customer-name').value || 'Customer';
+            const customerEmail = document.getElementById('customer-email').value || 'N/A';
+            const receiptDate = document.getElementById('receipt-date').value;
+            const receiptNumber = document.getElementById('receipt-number').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Format date
+            const formattedDate = new Date(receiptDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Update receipt info
+            document.getElementById('display-receipt-number').textContent = receiptNumber;
+            document.getElementById('display-date').textContent = formattedDate;
+            document.getElementById('display-customer').textContent = customerName;
+            document.getElementById('display-email').textContent = customerEmail;
+            
+            // Get services
+            const serviceItems = document.querySelectorAll('.service-item');
+            const receiptItemsTable = document.getElementById('receipt-items-table');
+            receiptItemsTable.innerHTML = '';
+            
+            let total = 0;
+            
+            serviceItems.forEach(item => {
+                const select = item.querySelector('.service-select');
+                const serviceName = select.value;
+                const price = parseFloat(item.querySelector('.service-price').value);
+                
+                if (serviceName && !isNaN(price)) {
+                    // Add to receipt
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td style="padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">${serviceName}</td>
+                        <td style="text-align: right; padding: 8px 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #a992e2; font-weight: bold;">$${price.toFixed(2)}</td>
+                    `;
+                    receiptItemsTable.appendChild(row);
+                    
+                    // Add to total
+                    total += price;
+                }
+            });
+            
+            // Update total
+            document.getElementById('display-total').textContent = total.toFixed(2);
+            
+            // Update notes
+            document.getElementById('display-notes').textContent = notes;
+        });
+        
+        // Print receipt
+        document.getElementById('print-receipt').addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Download receipt as PDF
+        document.getElementById('download-receipt').addEventListener('click', function() {
+            // Alert user that this would normally download a PDF
+            alert('In a production environment, this button would generate a PDF download. For this demo, please use the Print button and save as PDF.');
+            
+            // Note: To implement actual PDF download, you would need to use a library like html2pdf.js
+            // This would require adding the library to your project and implementing the conversion
+        });
+    </script>
+</body>
+</html>

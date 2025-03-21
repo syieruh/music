@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Services Shop - d1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: #3E001A;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 25px 20px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        main {
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .service-section {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1, h2 {
+            color: #ffffff;
+            font-weight: bold;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .service-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .service-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .service-info {
+            flex: 1;
+        }
+        
+        .service-price {
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .add-to-cart {
+            background-color: #a992e2;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #d4c4ff;
+            transform: translateY(-2px);
+        }
+        
+        .cart-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            position: relative;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #a992e2;
+            color: #000;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .checkout-btn {
+            background-color: #a992e2;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #d4c4ff;
+        }
+        
+        #cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cart-content {
+            background-color: #3E001A;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .remove-item {
+            color: #ff6b6b;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 18px;
+        }
+        
+        .cart-total {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .cart-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .close-cart, .proceed-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+        }
+        
+        .close-cart {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        
+        .proceed-btn {
+            background-color: #a992e2;
+            color: #000;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            font-size: 24px;
+            color: #1DB954;
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .copyright {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .service-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .service-price {
+                margin: 10px 0;
+            }
+            
+            .cart-container {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Music Services Shop</div>
+        </header>
+        
+        <div class="cart-container">
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <button class="checkout-btn">View Cart</button>
+        </div>
+        
+        <main>
+            <section class="service-section">
+                <h1>Instrumental/Beat</h1>
+                
+                <div class="service-item">
+                    <div class="service-info">MP3 Lease (Tagged)</div>
+                    <div class="service-price">$60</div>
+                    <button class="add-to-cart" data-id="beat1" data-name="MP3 Lease (Tagged)" data-price="60">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">MP3 Lease (Untagged)</div>
+                    <div class="service-price">$90</div>
+                    <button class="add-to-cart" data-id="beat2" data-name="MP3 Lease (Untagged)" data-price="90">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">WAV Lease (Untagged)</div>
+                    <div class="service-price">$119.99</div>
+                    <button class="add-to-cart" data-id="beat3" data-name="WAV Lease (Untagged)" data-price="119.99">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">Stems (Audio)</div>
+                    <div class="service-price">$199.99</div>
+                    <button class="add-to-cart" data-id="beat4" data-name="Stems (Audio)" data-price="199.99">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">Stems (Midi+Audio)</div>
+                    <div class="service-price">$499.99</div>
+                    <button class="add-to-cart" data-id="beat5" data-name="Stems (Midi+Audio)" data-price="499.99">Add to Cart</button>
+                </div>
+            </section>
+            
+            <section class="service-section">
+                <h1>Lyrics/Songwriting (no hooks/choruses)</h1>
+                
+                <div class="service-item">
+                    <div class="service-info">Up to 120 words ($4.99 per word)</div>
+                    <div class="service-price">$598.80</div>
+                    <button class="add-to-cart" data-id="lyrics1" data-name="Lyrics - Up to 120 words" data-price="598.80">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">Up to 270 words ($7.99 per word)</div>
+                    <div class="service-price">$2,157.30</div>
+                    <button class="add-to-cart" data-id="lyrics2" data-name="Lyrics - Up to 270 words" data-price="2157.30">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">270+ words, Max 600 ($9.99 per word)</div>
+                    <div class="service-price">$5,994.00</div>
+                    <button class="add-to-cart" data-id="lyrics3" data-name="Lyrics - 270+ words (Max 600)" data-price="5994.00">Add to Cart</button>
+                </div>
+            </section>
+            
+            <section class="service-section">
+                <h1>Lyrics/Songwriting (hooks/choruses)</h1>
+                
+                <div class="service-item">
+                    <div class="service-info">Up to 4 bars</div>
+                    <div class="service-price">$699.99</div>
+                    <button class="add-to-cart" data-id="hook1" data-name="Hook - Up to 4 bars" data-price="699.99">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">Up to 8 bars</div>
+                    <div class="service-price">$1,399.99</div>
+                    <button class="add-to-cart" data-id="hook2" data-name="Hook - Up to 8 bars" data-price="1399.99">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">Up to 12 bars</div>
+                    <div class="service-price">$1,999.99</div>
+                    <button class="add-to-cart" data-id="hook3" data-name="Hook - Up to 12 bars" data-price="1999.99">Add to Cart</button>
+                </div>
+            </section>
+            
+            <section class="service-section">
+                <h1>Mixing & Mastering</h1>
+                
+                <h2>Mixing (High-Quality Industry Standard Mix)</h2>
+                
+                <div class="service-item">
+                    <div class="service-info">Max 10 Audio Buses (3 revisions included)</div>
+                    <div class="service-price">$299.00</div>
+                    <button class="add-to-cart" data-id="mix1" data-name="Mixing - Max 10 Audio Buses" data-price="299.00">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">More than 10 Audio Buses (10 revisions included)</div>
+                    <div class="service-price">$499.00</div>
+                    <button class="add-to-cart" data-id="mix2" data-name="Mixing - More than 10 Audio Buses" data-price="499.00">Add to Cart</button>
+                </div>
+                <h2>Mastering</h2>
+                
+                <div class="service-item">
+                    <div class="service-info">Max 10 Audio Buses (1 revision included)</div>
+                    <div class="service-price">$299.00</div>
+                    <button class="add-to-cart" data-id="master1" data-name="Mastering - Max 10 Audio Buses" data-price="299.00">Add to Cart</button>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">More than 10 Audio Buses (3 revisions included)</div>
+                    <div class="service-price">$499.00</div>
+                    <button class="add-to-cart" data-id="master2" data-name="Mastering - More than 10 Audio Buses" data-price="499.00">Add to Cart</button>
+                </div>
+            </section>
+        </main>
+        
+        <div id="cart-modal">
+            <div class="cart-content">
+                <h2>Your Cart</h2>
+                <div id="cart-items">
+                    <!-- Cart items will be added here dynamically -->
+                </div>
+                <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
+                <div class="cart-buttons">
+                    <button class="close-cart">Continue Shopping</button>
+                    <button class="proceed-btn">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="social-links">
+                <a href="https://open.spotify.com/playlist/YourPlaylistID" target="_blank" class="spotify">
+                    <i class="fab fa-spotify"></i> Our Portfolio
+                </a>
+            </div>
+            <p class="copyright">© 2025 d-1 records. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Shopping cart functionality
+        let cart = [];
+        
+        // Add to cart buttons
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const cartCount = document.querySelector('.cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        const closeCartBtn = document.querySelector('.close-cart');
+        const proceedBtn = document.querySelector('.proceed-btn');
+        
+        // Add event listeners to all "Add to Cart" buttons
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const price = parseFloat(this.getAttribute('data-price'));
+                
+                // Check if item is already in cart
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: id,
+                        name: name,
+                        price: price,
+                        quantity: 1
+                    });
+                }
+                
+                // Update cart count
+                updateCartCount();
+                
+                // Show confirmation
+                this.textContent = "Added!";
+                setTimeout(() => {
+                    this.textContent = "Add to Cart";
+                }, 1000);
+            });
+        });
+        
+        // Update cart count
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        // Show cart modal
+        checkoutBtn.addEventListener('click', function() {
+            showCart();
+        });
+        
+        // Close cart modal
+        closeCartBtn.addEventListener('click', function() {
+            cartModal.style.display = 'none';
+        });
+        
+        // Show cart contents
+        function showCart() {
+            // Clear previous items
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Your cart is empty</p>';
+                cartTotal.textContent = '0.00';
+            } else {
+                // Add each item to the cart display
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    const cartItemDiv = document.createElement('div');
+                    cartItemDiv.className = 'cart-item';
+                    cartItemDiv.innerHTML = `
+                        <div>
+                            <div>${item.name}</div>
+                            <div>$${item.price.toFixed(2)} × ${item.quantity}</div>
+                        </div>
+                        <div>
+                            <span>$${itemTotal.toFixed(2)}</span>
+                            <button class="remove-item" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(cartItemDiv);
+                });
+                
+                // Update total
+                cartTotal.textContent = total.toFixed(2);
+                
+                // Add event listeners to remove buttons
+                const removeButtons = document.querySelectorAll('.remove-item');
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        removeFromCart(id);
+                    });
+                });
+            }
+            
+            // Show the modal
+            cartModal.style.display = 'flex';
+        }
+        
+        // Remove item from cart
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartCount();
+            showCart();
+        }
+        
+        // Proceed to checkout
+        proceedBtn.addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Create checkout page
+            const checkoutHTML = `
+                <h2>Checkout</h2>
+                <div class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    ${cart.map(item => `
+                        <div class="checkout-item">
+                            <div>${item.name} × ${item.quantity}</div>
+                            <div>$${(item.price * item.quantity).toFixed(2)}</div>
+                        </div>
+                    `).join('')}
+                    <div class="checkout-total">
+                        <strong>Total:</strong> $${cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2)}
+                    </div>
+                </div>
+                <div class="checkout-form">
+                    <h3>Contact Information</h3>
+                    <form id="payment-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="notes">Special Instructions</label>
+                            <textarea id="notes" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="submit-order">Complete Order</button>
+                    </form>
+                </div>
+                <button class="back-to-cart">Back to Cart</button>
+            `;
+            
+            // Replace cart content with checkout
+            const cartContent = document.querySelector('.cart-content');
+            cartContent.innerHTML = checkoutHTML;
+            
+            // Add event listener to back button
+            const backButton = document.querySelector('.back-to-cart');
+            backButton.addEventListener('click', function() {
+                showCart();
+            });
+            
+            // Add event listener to form submission
+            const paymentForm = document.getElementById('payment-form');
+            paymentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show confirmation
+                cartContent.innerHTML = `
+                    <h2>Order Confirmed!</h2>
+                    <p>Thank you for your order. We'll contact you shortly with next steps.</p>
+                    <p>A confirmation has been sent to your email.</p>
+                    <button class="close-confirmation">Continue Shopping</button>
+                `;
+                
+                // Clear cart
+                cart = [];
+                updateCartCount();
+                
+                // Add event listener to close button
+                const closeConfirmation = document.querySelector('.close-confirmation');
+                closeConfirmation.addEventListener('click', function() {
+                    cartModal.style.display = 'none';
+                });
+            });
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === cartModal) {
+                cartModal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
